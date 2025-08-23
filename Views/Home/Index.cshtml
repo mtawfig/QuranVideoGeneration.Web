@@ -1,0 +1,160 @@
+@model QuranVideoGeneration.Web.Models.GenerateRequest?
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- HERO -->
+<section class="qvg-hero text-white">
+    <div class="container qvg-hero-inner text-center">
+        <h1 class="display-4 display-md-3 fw-bold mb-3">Come Close to Allah.</h1>
+        <p class="lead opacity-75 mb-4">
+            Generate beautiful Qur’an videos with recitation and synced ayah overlays.
+        </p>
+        <a href="#generator" class="btn btn-lg qvg-cta">Read / Generate Now</a>
+
+        <a href="#generator" class="qvg-scroll-down mt-5" aria-label="Scroll to generator">
+            <span class="qvg-chevron"></span>
+        </a>
+    </div>
+</section>
+
+<!-- GENERATOR -->
+<a id="generator"></a>
+<section class="qvg-section">
+    <div class="container">
+        <div class="row g-4 align-items-start">
+            <!-- Form -->
+            <div class="col-12 col-lg-5">
+                <div class="card qvg-card shadow border-0">
+                    <div class="card-body p-4">
+                        <h2 class="h4 mb-3">Generate a 9:16 Video</h2>
+
+                        <form asp-controller="Video" asp-action="Generate" method="post" id="generateForm">
+                            @Html.AntiForgeryToken()
+
+                            <div class="mb-3">
+                                <label class="form-label" for="reciter">Reciter</label>
+                                <select class="form-select" name="ReciterCode" id="reciter" data-current="@Model?.ReciterCode">
+                                    <option>Loading…</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="surah">Surah</label>
+                                    <select class="form-select" id="surah" name="Surah" data-current="@Model?.Surah">
+                                        <option>Loading…</option>
+                                    </select>
+                                    <small class="form-text text-muted">This surah has <span id="surahAyahCount">—</span> ayahs.</small>
+                            </div>
+                            <div class="row">                                
+                                <div class="col-6 mb-3">
+                                    <label class="form-label" for="fromAyah">From Ayah</label>
+                                    <input type="number" min="1" class="form-control" id="fromAyah" name="FromAyah" value="@Model?.FromAyah ?? 1" required />
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label class="form-label" for="toAyah">To Ayah</label>
+                                    <input type="number" min="1" class="form-control" id="toAyah" name="ToAyah" value="@Model?.ToAyah ?? 7" required />
+                                </div>
+                            </div>
+
+                            <div class="d-grid">
+                                <button id="generateBtn" type="submit" class="btn btn-lg qvg-cta">
+                                    <span id="genSpinner" class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                                    <span id="genText">Generate</span>
+                                </button>
+                            </div>
+
+                            <p class="form-text mt-3 mb-0">The result will appear on the right. You’ll also see a success message.</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview -->
+            <div class="col-12 col-lg-7">
+                <div class="card qvg-card shadow border-0">
+                    <div class="card-body p-4">
+                        <h2 class="h4 mb-3">Preview</h2>
+
+                        <div class="ratio ratio-9x16 qvg-video-shell rounded d-flex align-items-center justify-content-center">
+                            <video id="previewVideo" class="w-100 h-100" controls playsinline></video>
+                        </div>
+
+                        <div class="d-grid mt-3">
+                            <a id="downloadBtn" class="btn btn-outline-light disabled" href="#" download>Download Video</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast (success) -->
+        <div class="position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index:1080">
+            <div id="appToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">Video generated successfully.</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+<script>
+// Populate Reciter select
+document.addEventListener('DOMContentLoaded', async () => {
+  const sel = document.getElementById('reciter');
+  if (!sel) return;
+  const current = sel.getAttribute('data-current') || '';
+
+  try {
+    const resp = await fetch('/data/reciters.json', { cache: 'no-store' });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const json = await resp.json();
+
+    const list = Array.isArray(json) ? json : (json.reciters || []);
+    const items = list
+      .map(r => ({ code: r.Code ?? r.code, name: r.DisplayName ?? r.displayName, name_ar: r.DisplayNameAR ?? r.displayNameAR }))
+      .filter(r => r.code && r.name && r.name_ar)
+      .sort((a,b) => a.name_ar.localeCompare(b.name_ar, undefined, { sensitivity:'base' }));
+
+    sel.innerHTML = '';
+    const ph = new Option('Choose a reciter…', '', true, false);
+    ph.disabled = true; ph.hidden = true; sel.add(ph);
+    for (const r of items) sel.add(new Option(r.name + ' || ' + r.name_ar, r.code, false, r.code === current));
+    if (![...sel.options].some(o => o.selected)) sel.selectedIndex = 0;
+  } catch (err) {
+    sel.innerHTML = '';
+    const errOpt = new Option('Failed to load reciters', '', true, false);
+    errOpt.disabled = true; sel.add(errOpt);
+    console.error('reciters.json load error:', err);
+  }
+});
+
+// --- Load Surah list from /data/surah-list.json and populate the dropdown ---
+// Load surah list
+fetch('/data/surah-list.json')
+  .then(r => r.json())
+  .then(list => {
+    const sel = document.getElementById('surah');
+    sel.innerHTML = '';
+    list.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.index;
+        //opt.textContent = item.index + ' — ' + item.name + ' (' + item.ayahs + ')';
+        opt.textContent = item.index + ' — ' + item.name + ' || ' + item.name_ar + ' (' + item.ayahs + ' Ayahs)';
+        sel.appendChild(opt);
+    });
+  });
+
+  // Keep ayah bounds in range
+document.getElementById('surah').addEventListener('change', e => {
+    const sel = e.target;
+    const text = sel.options[sel.selectedIndex].textContent;
+    const match = text.match(/\((\d+)\)\s*$/);
+    const max = match ? parseInt(match[1], 10) : 286;
+    document.getElementById('fromAyah').max = max;
+    document.getElementById('toAyah').max = max;
+});
+</script>
+}

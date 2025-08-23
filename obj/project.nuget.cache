@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "5CHKBAYyq1M=",
+  "success": true,
+  "projectFilePath": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\QuranVideoGeneration.Web.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Dell\\.nuget\\packages\\microsoft.win32.systemevents\\8.0.0\\microsoft.win32.systemevents.8.0.0.nupkg.sha512",
+    "C:\\Users\\Dell\\.nuget\\packages\\system.drawing.common\\8.0.7\\system.drawing.common.8.0.7.nupkg.sha512"
+  ],
+  "logs": []
+}

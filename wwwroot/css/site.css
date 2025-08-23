@@ -1,0 +1,80 @@
+:root{
+  --qvg-green:#0b8f3c;
+  --qvg-green-700:#086a2d;
+  --qvg-dark:#0c0f12;
+  --qvg-bg:#0f1318;       /* page background under hero */
+  --qvg-card:#171d23;     /* card surface */
+  --qvg-card-border:#26303a;
+}
+
+/* ---------- Base ---------- */
+html,body{ background:var(--qvg-bg); color:#e7edf4; }
+a{ text-decoration:none }
+
+/* ---------- Navbar ---------- */
+.qvg-navbar{
+  background: transparent;
+  transition: background-color .25s ease, box-shadow .25s ease;
+  z-index:1030;
+}
+.qvg-navbar.scrolled{
+  background: rgba(12,15,18,.92);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 24px rgba(0,0,0,.25);
+}
+.qvg-logo{ width:100px; height:100px; object-fit:contain; }
+.qvg-nav-links .nav-link{ position:relative; padding:.5rem .9rem; font-weight:600; color:#dfe7ee; }
+.qvg-nav-links .nav-link.active, .qvg-nav-links .nav-link:hover{ color:#fff; }
+.qvg-nav-links .nav-link.active::after, .qvg-nav-links .nav-link:hover::after{
+  content:""; position:absolute; left:12px; right:12px; bottom:-6px; height:3px; border-radius:2px; background:var(--qvg-green);
+}
+
+/* ---------- Hero (no fixed background, self-contained) ---------- */
+.qvg-hero{
+  position:relative;
+  min-height:60vh;             /* smaller than before so it won't swallow the form */
+  display:flex; align-items:center;
+  background-image:url('/images/hero-mosque.jpg');
+  background-size:cover; background-position:center top; background-repeat:no-repeat;
+  overflow:hidden;             /* ensures overlay never bleeds */
+}
+.qvg-hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(1200px 600px at 50% 20%, rgba(0,0,0,.10), transparent 60%),
+    linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.70));
+}
+.qvg-hero-inner{ position:relative; z-index:1; padding:6rem 0 4.5rem; }
+
+/* CTA */
+.qvg-cta{
+  background:var(--qvg-green); border:none; padding:.85rem 1.35rem; font-weight:700;
+  box-shadow:0 10px 30px rgba(11,143,60,.25);
+}
+.qvg-cta:hover{ background:var(--qvg-green-700); }
+
+/* Scroll chevron */
+.qvg-scroll-down{ display:inline-block; opacity:.9 }
+.qvg-chevron{
+  display:inline-block; width:28px; height:28px; border-right:3px solid #fff; border-bottom:3px solid #fff;
+  transform:rotate(45deg); animation:qvg-bounce 1.6s infinite;
+}
+@keyframes qvg-bounce{
+  0%,100%{ transform:translateY(0) rotate(45deg); opacity:.9 }
+  50%{ transform:translateY(6px) rotate(45deg); opacity:.65 }
+}
+
+/* ---------- Sections & cards ---------- */
+.qvg-section{ background:var(--qvg-bg); padding:3.5rem 0; }
+.qvg-card{ background:var(--qvg-card); border:1px solid var(--qvg-card-border); border-radius:1rem; }
+.form-label{ font-weight:600 }
+
+/* Video shell to avoid super-tall column on small screens */
+.qvg-video-shell{ background:#0c0f12; max-height:70vh; }
+
+/* Ratio helper (Bootstrap has ratio-16x9 etc.; we add 9x16) */
+.ratio-9x16{ --bs-aspect-ratio: 177.7778%; }
+
+/* Anchor compensation for fixed navbar when jumping */
+main > *:first-child{ scroll-margin-top:84px; }

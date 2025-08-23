@@ -1,0 +1,30 @@
+[
+  {
+    "Code": "MISHARY",
+    "DisplayName": "Mishary Rashid Alafasy",
+    "DisplayNameAR": "مشاري راشد العفاسي",
+    "BaseUrl": "https://everyayah.com/data/Alafasy_128kbps",
+    "FilePattern": "{surah3}{ayah3}.mp3"
+  },
+  {
+    "Code": "ABDUL_BASIT",
+    "DisplayName": "Abdul Basit (Mujawwad)",
+    "DisplayNameAR": "عبد الباسط عبد الصمد (مجود)",
+    "BaseUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps",
+    "FilePattern": "{surah3}{ayah3}.mp3"
+  },
+  {
+    "Code": "AL_HUDHAIFY",
+    "DisplayName": "Ali Al-Hudhaify",
+    "DisplayNameAR": "علي الحذيفي",
+    "BaseUrl": "https://everyayah.com/data/Hudhaify_128kbps",
+    "FilePattern": "{surah3}{ayah3}.mp3"
+  },
+  {
+    "Code": "MOH_KAREEM",
+    "DisplayName": "Muhammad AbdulKareem",
+    "DisplayNameAR": "محمد عبد الكريم",
+    "BaseUrl": "https://everyayah.com/data/Muhammad_AbdulKareem_128kbps",
+    "FilePattern": "{surah3}{ayah3}.mp3"
+  }
+]

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="360" height="120" role="img" aria-labelledby="title desc">
+  <title id="title">شعار بطراز إسلامي يتضمن مصحف وأيقونة فيديو</title>
+  <desc id="desc">شعار مت矔سَط يحتوي على أيقونة مصحف داخل زخرفة بسيطة، مع شارة تشغيل للفيديو، وخيار نص عربي على اليمين.</desc>
+
+  <style>
+    :root {
+      --primary: #0a7b49;   /* أخضر */
+      --dark:    #083c2b;   /* أخضر داكن */
+      --accent:  #d4af37;   /* ذهبي */
+      --page:    #fbf9f2;   /* لون ورق فاتح */
+    }
+    .shadow { filter: drop-shadow(0 1px 2px rgba(0,0,0,.25)); }
+  </style>
+
+  <defs>
+    <!-- تدرج ذهبي للشارات -->
+    <linearGradient id="goldGradient" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%"  stop-color="#f7e27c"/>
+      <stop offset="50%" stop-color="#e3c55a"/>
+      <stop offset="100%" stop-color="#d4af37"/>
+    </linearGradient>
+
+    <!-- تدرج خفيف لصفحات المصحف -->
+    <linearGradient id="pageGrad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fbf7ef"/>
+    </linearGradient>
+  </defs>
+
+  <!-- الرمز (أيسر) -->
+  <g id="emblem" class="shadow" transform="translate(70,60)">
+    <!-- دائرة خلفية -->
+    <circle r="46" fill="var(--primary)" />
+    <!-- لمسة زخرفية بسيطة (مربعات متداخلة) -->
+    <rect x="-28" y="-28" width="128" height="128" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity=".35"/>
+    <rect x="-28" y="-28" width="128" height="128" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity=".35" transform="rotate(45)"/>
+    <!-- المصحف -->
+    <g id="mushaf" transform="translate(0,0)">
+      <!-- الغلاف الخلفي -->
+      <rect x="-32" y="-22" width="150" height="150" rx="6" fill="var(--dark)" opacity=".12"/>
+      <!-- الصفحات -->
+      <path d="M -28 -16 Q -10 -28 0 -16 L 0 18 Q -10 8 -28 16 Z"
+            fill="url(#pageGrad)" stroke="var(--dark)" stroke-width="1.2"/>
+      <path d="M 0 -16 Q 10 -28 28 -16 L 28 16 Q 10 8 0 18 Z"
+            fill="url(#pageGrad)" stroke="var(--dark)" stroke-width="1.2"/>
+      <!-- السِمّة الوسطى (كعب المصحف) -->
+      <line x1="0" y1="-18" x2="0" y2="18" stroke="var(--accent)" stroke-width="1.2"/>
+      <!-- شريط علامة -->
+      <path d="M 0 -16 v -14 l 7 9 l -7 3 Z" fill="url(#goldGradient)"/>
+    </g>
+
+    <!-- شارة الفيديو -->
+    <g id="videoBadge" transform="translate(30,22)">
+      <circle r="12" fill="url(#goldGradient)" stroke="var(--dark)" stroke-width="1"/>
+      <polygon points="-4,-6 6,0 -4,6" fill="var(--dark)"/>
+    </g>
+  </g>
+</svg>

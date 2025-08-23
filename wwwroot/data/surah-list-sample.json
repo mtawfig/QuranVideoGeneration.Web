@@ -1,0 +1,52 @@
+[
+  {
+    "index": 1,
+    "name": "Al-Fātiḥah",
+    "ayahs": 7
+  },
+  {
+    "index": 2,
+    "name": "Al-Baqarah",
+    "ayahs": 286
+  },
+  {
+    "index": 3,
+    "name": "Āl ʿImrān",
+    "ayahs": 200
+  },
+  {
+    "index": 4,
+    "name": "An-Nisāʾ",
+    "ayahs": 176
+  },
+  {
+    "index": 5,
+    "name": "Al-Māʾidah",
+    "ayahs": 120
+  },
+  {
+    "index": 6,
+    "name": "Al-Anʿām",
+    "ayahs": 165
+  },
+  {
+    "index": 7,
+    "name": "Al-Aʿrāf",
+    "ayahs": 206
+  },
+  {
+    "index": 8,
+    "name": "Al-Anfāl",
+    "ayahs": 75
+  },
+  {
+    "index": 9,
+    "name": "At-Tawbah",
+    "ayahs": 129
+  },
+  {
+    "index": 10,
+    "name": "Yūnus",
+    "ayahs": 109
+  }
+]

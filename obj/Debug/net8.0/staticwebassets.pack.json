@@ -1,0 +1,129 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\data\\quran_simple.xml",
+      "PackagePath": "staticwebassets\\data\\quran_simple.xml"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\data\\reciters.json",
+      "PackagePath": "staticwebassets\\data\\reciters.json"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\data\\surah-list-sample.json",
+      "PackagePath": "staticwebassets\\data\\surah-list-sample.json"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\data\\surah-list.json",
+      "PackagePath": "staticwebassets\\data\\surah-list.json"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\fonts\\AmiriQuran-Regular.ttf",
+      "PackagePath": "staticwebassets\\fonts\\AmiriQuran-Regular.ttf"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\fonts\\Deco Type.ttf",
+      "PackagePath": "staticwebassets\\fonts\\Deco Type.ttf"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_19ea4708fc1c419dae34563ce3c95fbf.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_19ea4708fc1c419dae34563ce3c95fbf.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_1b60d64d1f57496baaed30b02171863b.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_1b60d64d1f57496baaed30b02171863b.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_23025e80666147e5852c73fe682d13a1.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_23025e80666147e5852c73fe682d13a1.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_58b430db72b64512b857c669645dc9bf.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_58b430db72b64512b857c669645dc9bf.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_6a3999285d5b4a3a8be5419e9def38ca.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_6a3999285d5b4a3a8be5419e9def38ca.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_83b884221b1941fe9e3b180cc7618cd7.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_83b884221b1941fe9e3b180cc7618cd7.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_9adbb18862734faf8512b31b0687fccf.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_9adbb18862734faf8512b31b0687fccf.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_a9a251848b9940e38ee82e3742189848.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_a9a251848b9940e38ee82e3742189848.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_b18c8884174847b3aea1731101920695.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_b18c8884174847b3aea1731101920695.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_cea23b61dfad4bec8b220bca4708f118.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_cea23b61dfad4bec8b220bca4708f118.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_dc24c4436ae24992967f16af28d0e91b.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_dc24c4436ae24992967f16af28d0e91b.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_dd7b2e92eed9473986640857a95afb24.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_dd7b2e92eed9473986640857a95afb24.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_e5dab91121224b03ad361363513927a0.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_e5dab91121224b03ad361363513927a0.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\generated\\qvg_fc7ee7d2db594f17b1f439b47f6ade61.mp4",
+      "PackagePath": "staticwebassets\\generated\\qvg_fc7ee7d2db594f17b1f439b47f6ade61.mp4"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\images\\hero-mosque-1.jpg",
+      "PackagePath": "staticwebassets\\images\\hero-mosque-1.jpg"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\images\\hero-mosque.jpg",
+      "PackagePath": "staticwebassets\\images\\hero-mosque.jpg"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\images\\logo.svg",
+      "PackagePath": "staticwebassets\\images\\logo.svg"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\images\\logo_old.svg",
+      "PackagePath": "staticwebassets\\images\\logo_old.svg"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\images\\logo_small.svg",
+      "PackagePath": "staticwebassets\\images\\logo_small.svg"
+    },
+    {
+      "Id": "C:\\Mostafa\\Programming\\QuranVideoGeneration\\QuranVideoGeneration.Web\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.QuranVideoGeneration.Web.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.QuranVideoGeneration.Web.props",
+      "PackagePath": "build\\QuranVideoGeneration.Web.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.QuranVideoGeneration.Web.props",
+      "PackagePath": "buildMultiTargeting\\QuranVideoGeneration.Web.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.QuranVideoGeneration.Web.props",
+      "PackagePath": "buildTransitive\\QuranVideoGeneration.Web.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
