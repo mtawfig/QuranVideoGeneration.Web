@@ -25,7 +25,8 @@ namespace QuranVideoGeneration.Web.Services
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(apiKey);
 
             //var url = "https://api.pexels.com/videos/search?query=nature&orientation=portrait&per_page=30&size=large";
-            var url = "https://api.pexels.com/videos/search?query=islamic&orientation=portrait&per_page=30&size=large";
+            //var url = "https://api.pexels.com/videos/search?query=islamic&orientation=portrait&per_page=30&size=large";
+            var url = "https://api.pexels.com/videos/search?query=islamic%20nature%20sea%20forest%20ocean&orientation=portrait&resolution_name=1080p&people_count=0&min_duration=30&max_duration=60";
             using var resp = await client.GetAsync(url);
             if (!resp.IsSuccessStatusCode) return null;
 

@@ -15,5 +15,8 @@ namespace QuranVideoGeneration.Web.Models
 
         [Range(1, 286)]
         public int ToAyah { get; set; } = 7;
+
+        [Range(1, 5)]
+        public int VideoType { get; set; } = 1;
     }
 }

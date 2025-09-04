@@ -1,0 +1,10 @@
+# .NET build artifacts
+**/bin/
+**/obj/
+
+# publish outputs (covers custom -o ./publish too)
+**/publish/
+ /publish/
+
+# your generated media (optional, recommended)
+/wwwroot/generated/
