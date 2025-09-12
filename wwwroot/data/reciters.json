@@ -1,29 +1,73 @@
 [
+   {
+    "Code": "ASSUDAIS",
+    "DisplayName": "Abdurrahmaan As-Sudais || عبد الرحمن السديس",
+    "BaseUrl": "https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps",
+    "FilePattern": "{surah3}{ayah3}.mp3"
+  },
   {
-    "Code": "MISHARY",
-    "DisplayName": "Mishary Rashid Alafasy",
-    "DisplayNameAR": "مشاري راشد العفاسي",
-    "BaseUrl": "https://everyayah.com/data/Alafasy_128kbps",
+    "Code": "SAOOD_SHURAYM",
+    "DisplayName": "Saood_ash-Shuraym_128kbps || سعود الشريم",
+    "BaseUrl": "https://everyayah.com/data/Saood_ash-Shuraym_128kbps",
+    "FilePattern": "{surah3}{ayah3}.mp3"
+  },
+  {
+    "Code": "YASSER_ADDUSSARY",
+    "DisplayName": "Yasser Addusary || ياسر الدوسري",
+    "BaseUrl": "https://everyayah.com/data/Yasser_Ad-Dussary_128kbps",
+    "FilePattern": "{surah3}{ayah3}.mp3"
+  },
+  {
+    "Code": "AHMED_ALAJAMI",
+    "DisplayName": "Ahmed Al Ajami || أحمد العجمي",
+    "BaseUrl": "https://everyayah.com/data/ahmed_ibn_ali_al_ajamy_128kbps",
+    "FilePattern": "{surah3}{ayah3}.mp3"
+  },
+  {
+    "Code": "ALI_JABER",
+    "DisplayName": "Ali Jaber || علي جابر",
+    "BaseUrl": "https://everyayah.com/data/Ali_Jaber_64kbps",
+    "FilePattern": "{surah3}{ayah3}.mp3"
+  },
+  {
+    "Code": "NASSER_ALQATAMI",
+    "DisplayName": "Nasser Alqatami || ناصر القطامي",
+    "BaseUrl": "https://everyayah.com/data/Nasser_Alqatami_128kbps",
+    "FilePattern": "{surah3}{ayah3}.mp3"
+  },
+  {
+    "Code": "MAHER_ALMUAIQLY",
+    "DisplayName": "Maher Al Muaiqly || ماهر المعيقلي",
+    "BaseUrl": "https://everyayah.com/data/MaherAlMuaiqly128kbps",
     "FilePattern": "{surah3}{ayah3}.mp3"
   },
   {
     "Code": "ABDUL_BASIT",
-    "DisplayName": "Abdul Basit (Mujawwad)",
-    "DisplayNameAR": "عبد الباسط عبد الصمد (مجود)",
+    "DisplayName": "Abdul Basit (Mujawwad) || عبد الباسط عبد الصمد (مجود)",
     "BaseUrl": "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps",
     "FilePattern": "{surah3}{ayah3}.mp3"
   },
   {
+    "Code": "HUSARY",
+    "DisplayName": "Mahmoud Al-Husary || محمود الحصري",
+    "BaseUrl": "https://everyayah.com/data/Husary_128kbps",
+    "FilePattern": "{surah3}{ayah3}.mp3"
+  },
+  {
     "Code": "AL_HUDHAIFY",
-    "DisplayName": "Ali Al-Hudhaify",
-    "DisplayNameAR": "علي الحذيفي",
+    "DisplayName": "Ali Al-Hudhaify || علي الحذيفي",
     "BaseUrl": "https://everyayah.com/data/Hudhaify_128kbps",
     "FilePattern": "{surah3}{ayah3}.mp3"
   },
   {
+    "Code": "MISHARY",
+    "DisplayName": "Mishary Rashid Alafasy || مشاري راشد العفاسي",
+    "BaseUrl": "https://everyayah.com/data/Alafasy_128kbps",
+    "FilePattern": "{surah3}{ayah3}.mp3"
+  },
+  {
     "Code": "MOH_KAREEM",
-    "DisplayName": "Muhammad AbdulKareem",
-    "DisplayNameAR": "محمد عبد الكريم",
+    "DisplayName": "Muhammad AbdulKareem || محمد عبد الكريم",
     "BaseUrl": "https://everyayah.com/data/Muhammad_AbdulKareem_128kbps",
     "FilePattern": "{surah3}{ayah3}.mp3"
   }

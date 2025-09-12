@@ -10,24 +10,25 @@
         <p class="lead opacity-75 mb-4">
             Generate beautiful Qur’an videos with recitation and synced ayah overlays.
         </p>
-        <a href="#generator" class="btn btn-lg qvg-cta">Read / Generate Now</a>
+        @* <a href="#generator" class="btn btn-lg qvg-cta">Generate Now &nbsp;<span class="qvg-chevron"></span></a> *@
 
-        <a href="#generator" class="qvg-scroll-down mt-5" aria-label="Scroll to generator">
+        @* <a href="#generator" class="qvg-scroll-down mt-5" aria-label="Scroll to generator">
             <span class="qvg-chevron"></span>
-        </a>
+        </a> *@
+        @* <a href="#generator" class="btn btn-lg btn-round qvg-cta"><span class="qvg-chevron"></span></a> *@
     </div>
 </section>
 
 <!-- GENERATOR -->
 <a id="generator"></a>
-<section class="qvg-section">
+<section class="qvg-section opacity-75">
     <div class="container">
         <div class="row g-4 align-items-start">
             <!-- Form -->
             <div class="col-12 col-lg-5">
                 <div class="card qvg-card shadow border-0">
                     <div class="card-body p-4">
-                        <h2 class="h4 mb-3">Generate a 9:16 Video</h2>
+                        <h2 class="h4 mb-3">Generate Video</h2>
 
                         <form asp-controller="Video" asp-action="Generate" method="post" id="generateForm">
                             @Html.AntiForgeryToken()
@@ -43,7 +44,7 @@
                                     <select class="form-select" id="surah" name="Surah" data-current="@Model?.Surah">
                                         <option>Loading…</option>
                                     </select>
-                                    <small class="form-text text-muted">This surah has <span id="surahAyahCount">—</span> ayahs.</small>
+                                    @* <small class="form-text text-muted">This surah has <span id="surahAyahCount">—</span> ayahs.</small> *@
                             </div>
                             <div class="row">                                
                                 <div class="col-6 mb-3">
@@ -52,8 +53,15 @@
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label class="form-label" for="toAyah">To Ayah</label>
-                                    <input type="number" min="1" class="form-control" id="toAyah" name="ToAyah" value="@Model?.ToAyah ?? 7" required />
+                                    <input type="number" min="1" class="form-control" id="toAyah" name="ToAyah" value="@Model?.ToAyah ?? 3" required />
                                 </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" asp-for="VideoStyle">Video Style</label>
+                                <select class="form-select" id="VideoStyle" name="VideoStyle" data-current="@Model?.VideoStyle">
+                                    <option>Loading…</option>
+                                </select>
                             </div>
 
                             <div class="d-grid">
@@ -63,7 +71,7 @@
                                 </button>
                             </div>
 
-                            <p class="form-text mt-3 mb-0">The result will appear on the right. You’ll also see a success message.</p>
+                            <p class="form-text mt-3 mb-0">The result will appear after generated. You’ll also see a success message.</p>
                         </form>
                     </div>
                 </div>
@@ -102,7 +110,7 @@
 @section Scripts {
 <script>
 // Populate Reciter select
-document.addEventListener('DOMContentLoaded', async () => {
+@* /* document.addEventListener('DOMContentLoaded', async () => {
   const sel = document.getElementById('reciter');
   if (!sel) return;
   const current = sel.getAttribute('data-current') || '';
@@ -129,31 +137,113 @@ document.addEventListener('DOMContentLoaded', async () => {
     errOpt.disabled = true; sel.add(errOpt);
     console.error('reciters.json load error:', err);
   }
-});
+}); */ *@
+
+const reciterSel = document.getElementById('reciter');
+const surahSel = document.getElementById('surah');
+const fromAyah  = document.getElementById('fromAyah');
+const toAyah    = document.getElementById('toAyah');
+const ayahCountEl = document.getElementById('surahAyahCount');
+const stylehSel = document.getElementById('VideoStyle');
+
+// Load reciters list
+fetch('/data/reciters.json')
+  .then(r => r.json())
+  .then(list => {
+    reciterSel.innerHTML = '';
+    const ph = new Option('Choose the reciter || حدد القارئ', '', true, true);
+    ph.disabled = true; ph.hidden = true; reciterSel.add(ph);
+    list.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.Code;
+        //opt.textContent = item.DisplayName + ' || ' + item.DisplayNameAR;
+        opt.textContent = item.DisplayName;
+        reciterSel.appendChild(opt);
+    });
+  });
 
 // Load surah list
 fetch('/data/surah-list.json')
   .then(r => r.json())
   .then(list => {
-    const sel = document.getElementById('surah');
-    sel.innerHTML = '';
+    surahSel.innerHTML = '';
+    const ph = new Option('Choose surah || حدد السورة', '', true, true);
+    ph.disabled = true; ph.hidden = true; surahSel.add(ph);
+
+    list.forEach(item => {
+      const opt = new Option(
+        `${item.index} — ${item.name} || ${item.name_ar} (Ayahs ${item.ayahs} اياتها)`,
+        item.index
+      );
+      opt.dataset.ayahs = item.ayahs;       // <-- keep the count here
+      surahSel.add(opt);
+    });
+
+    // initialize bounds once (will also run on change)
+    applySurahBounds();
+  });
+
+// Fill video styles
+fetch('/data/video-styles.json')
+  .then(r => r.json())
+  .then(list => {
+    stylehSel.innerHTML = '';
+    const ph = new Option('Choose video type || حدد نوع الفيديو', '', true, true);
+    ph.disabled = true; ph.hidden = true; stylehSel.add(ph);
     list.forEach(item => {
         const opt = document.createElement('option');
-        opt.value = item.index;
-        //opt.textContent = item.index + ' — ' + item.name + ' (' + item.ayahs + ')';
-        opt.textContent = item.index + ' — ' + item.name + ' || ' + item.name_ar + ' (' + item.ayahs + ' Ayahs)';
-        sel.appendChild(opt);
+        opt.value = item.value;
+        opt.textContent = item.name;
+        stylehSel.appendChild(opt);
     });
   });
 
   // Keep ayah bounds in range
-document.getElementById('surah').addEventListener('change', e => {
-    const sel = e.target;
-    const text = sel.options[sel.selectedIndex].textContent;
-    const match = text.match(/\((\d+)\)\s*$/);
-    const max = match ? parseInt(match[1], 10) : 286;
-    document.getElementById('fromAyah').max = max;
-    document.getElementById('toAyah').max = max;
+/* Clamp helpers */
+function clamp(n, min, max){
+  n = parseInt(n, 10);
+  if (isNaN(n)) n = min;
+  return Math.max(min, Math.min(max, n));
+}
+
+/* Set min/max for from/to based on selected surah and fix current values */
+function applySurahBounds() {
+  const opt = surahSel.selectedOptions[0];
+  const max = opt ? parseInt(opt.dataset.ayahs, 10) || 286 : 286;
+
+  fromAyah.min = 1; fromAyah.max = max;
+  toAyah.min   = 1; toAyah.max   = max;
+
+  let f = clamp(fromAyah.value || 1, 1, max);
+  let t = clamp(toAyah.value   || max, 1, max);
+
+  if (t < f) t = f;                 // enforce from ≤ to
+
+  fromAyah.value = String(f);
+  toAyah.value   = String(t);
+
+  if (ayahCountEl) ayahCountEl.textContent = max;
+
+  console.log(`Surah ${opt.value} has ${max} ayahs. from=${f}, to=${t}`);
+}
+
+surahSel.addEventListener('change', applySurahBounds);
+
+/* Keep the constraint live while typing */
+fromAyah.addEventListener('input', () => {
+  const max = parseInt(surahSel.selectedOptions[0]?.dataset.ayahs || '286', 10);
+  let f = clamp(fromAyah.value, 1, max);
+  fromAyah.value = String(f);
+  if (parseInt(toAyah.value || '1', 10) < f) toAyah.value = String(f);
 });
+
+toAyah.addEventListener('input', () => {
+  const max = parseInt(surahSel.selectedOptions[0]?.dataset.ayahs || '286', 10);
+  let t = clamp(toAyah.value, 1, max);
+  toAyah.value = String(t);
+  const f = parseInt(fromAyah.value || '1', 10);
+  if (t < f) toAyah.value = String(f);
+});
+
 </script>
 }

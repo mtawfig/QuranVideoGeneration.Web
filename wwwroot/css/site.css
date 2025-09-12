@@ -29,23 +29,46 @@ a{ text-decoration:none }
   content:""; position:absolute; left:12px; right:12px; bottom:-6px; height:3px; border-radius:2px; background:var(--qvg-green);
 }
 
-/* ---------- Hero (no fixed background, self-contained) ---------- */
+/* ---------- Hero: fixed, full-viewport background ---------- */
 .qvg-hero{
   position:relative;
-  min-height:60vh;             /* smaller than before so it won't swallow the form */
+  z-index:0;                    /* create stacking context for pseudo-elements */
+  /*min-height:30vh;*/             /* fill visible page */
   display:flex; align-items:center;
+  padding: 6rem 0 2.5rem;
   background-image:url('/images/hero-mosque.jpg');
-  background-size:cover; background-position:center top; background-repeat:no-repeat;
-  overflow:hidden;             /* ensures overlay never bleeds */
+  background-position:center top;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-attachment:fixed;  /* key line for fixed background */
+  overflow:hidden;
 }
+
+/* gradient overlay on top of the fixed image */
 .qvg-hero::before{
   content:"";
   position:absolute; inset:0;
+  z-index:0;
   background:
     radial-gradient(1200px 600px at 50% 20%, rgba(0,0,0,.10), transparent 60%),
     linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.70));
 }
-.qvg-hero-inner{ position:relative; z-index:1; padding:6rem 0 4.5rem; }
+.qvg-hero-inner{ position:relative; z-index:1; padding:6rem 0 1.5rem; }
+
+/* iOS Safari fallback: emulate fixed background with a fixed layer */
+@supports (-webkit-touch-callout: none) {
+  .qvg-hero{
+    background-attachment:scroll;     /* disable broken fixed on iOS */
+    background-image:none;            /* we’ll paint it via ::after */
+  }
+  .qvg-hero::after{
+    content:"";
+    position:fixed; inset:0;          /* fixed to the viewport */
+    z-index:-1;                       /* behind the hero + overlay */
+    background:url('/images/hero-mosque.jpg') center top / cover no-repeat;
+    transform:translateZ(0);          /* hint to GPU */
+  }
+}
 
 /* CTA */
 .qvg-cta{
@@ -66,7 +89,34 @@ a{ text-decoration:none }
 }
 
 /* ---------- Sections & cards ---------- */
-.qvg-section{ background:var(--qvg-bg); padding:3.5rem 0; }
+/* ---------- Sections & cards ---------- */
+/* Replace your existing .qvg-section block with this */
+.qvg-section{
+  position: relative;
+  padding: 3.5rem 0;
+
+  /* 30% transparent overlay + fixed background image */
+  background-image:
+    linear-gradient(rgba(12,15,18,0.70), rgba(12,15,18,0.70)),  /* overlay = 70% opacity -> 30% transparent */
+    url('/images/hero-mosque.jpg');                              /* same image as hero */
+  background-size: auto, cover;
+  background-position: center top, center top;
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: scroll, fixed;                          /* overlay scrolls, image stays fixed */
+}
+
+/* (optional) iOS Safari fallback for fixed backgrounds */
+@supports (-webkit-touch-callout: none) {
+  .qvg-section{
+    background-attachment: scroll, scroll;                       /* iOS doesn’t honor fixed reliably */
+  }
+  .qvg-section::after{
+    content:"";
+    position: fixed; inset: 0; z-index: -1;
+    background: url('/images/hero-mosque.jpg') center top / cover no-repeat;
+  }
+}
+
 .qvg-card{ background:var(--qvg-card); border:1px solid var(--qvg-card-border); border-radius:1rem; }
 .form-label{ font-weight:600 }
 
@@ -78,3 +128,17 @@ a{ text-decoration:none }
 
 /* Anchor compensation for fixed navbar when jumping */
 main > *:first-child{ scroll-margin-top:84px; }
+
+/* --- Translucent panels (≈30% transparent) --- */
+.qvg-card{
+  background: rgba(23, 29, 35, 0.7);              /* was var(--qvg-card) */
+  border: 1px solid rgba(38, 48, 58, 0.5);        /* softer border */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);             /* Safari */
+}
+
+.qvg-video-shell{
+  background: rgba(12, 15, 18, 0.7);              /* was #0c0f12 */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}

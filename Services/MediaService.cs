@@ -54,7 +54,8 @@ namespace QuranVideoGeneration.Web.Services
                 outRoot = System.IO.Path.Combine(_env.WebRootPath, "generated");
             System.IO.Directory.CreateDirectory(outRoot);
 
-            var guid = Guid.NewGuid().ToString("N");
+            //var guid = Guid.NewGuid().ToString("N");
+            var guid = DateTime.Now.Ticks.ToString();
             var workDir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "qvg", guid);
             System.IO.Directory.CreateDirectory(workDir);
 
@@ -72,8 +73,12 @@ namespace QuranVideoGeneration.Web.Services
                 }
                 else
                 {
+                    // Get QueryString from config
+                    var url = _cfg["Pexels:BaseUrl"]??"https://api.pexels.com/videos/search?query=replace_with_query&orientation=portrait&resolution_name=1080p&people_count=0&min_duration=30&max_duration=60";
+                    url = url.Replace("replace_with_query", req.VideoStyle??"islamic%20quran%20islam%20mosque", StringComparison.OrdinalIgnoreCase);
+                    
                     // 1) Fetch background & recitation audio
-                    var bgPath = await _pexels.DownloadRandomPortraitNatureAsync(workDir)
+                    var bgPath = await _pexels.DownloadRandomPexelsVideoAsync(workDir, url)
                                  ?? throw new InvalidOperationException("Failed to fetch background video from Pexels.");
 
                     var audioPath = await _recitations.DownloadAndConcatAsync(
@@ -98,7 +103,7 @@ namespace QuranVideoGeneration.Web.Services
                     //    - Repeat via split+concat to cover audio (no -stream_loop)
                     //    - Add safe fades
                     //    - Overlay PNGs centered between(t,start,end)
-                    var bgEffective = bgSeconds * 2.0; // 0.5× speed => duration doubles
+                    var bgEffective = bgSeconds; // * 2.0; // 0.5× speed => duration doubles
                     var loops = (int)Math.Ceiling(audioSeconds / bgEffective);
                     loops = Math.Max(1, Math.Min(loops, 50)); // cap to keep graphs reasonable
 
@@ -116,7 +121,7 @@ namespace QuranVideoGeneration.Web.Services
                     // Step 1: base background with effects and 0.5× speed
                     sb.Append("[0:v]");
                     sb.Append("scale=-2:1920,crop=1080:1920,");
-                    sb.Append("setpts=2*PTS,"); // slow down to 0.5×
+                    //sb.Append("setpts=2*PTS,"); // slow down to 0.5×
                     sb.Append("eq=contrast=1.06:brightness=0.03:saturation=1.1,");
                     sb.Append("boxblur=luma_radius=2:luma_power=1,");
                     sb.Append("format=rgba[bbase];");

@@ -120,12 +120,13 @@
       dl.classList.remove('disabled');
 
       showToast();
-      genText.textContent = 'Re-Generate';
+      //genText.textContent = 'Re-Generate';
     } catch (err) {
       alert((err && err.message) ? err.message : 'Error generating video.');
-      genText.textContent = 'Generate';
+      //genText.textContent = 'Generate';
     } finally {
       setBusy(false);
+      genText.textContent = 'Generate';
     }
   });
 })();

@@ -18,6 +18,7 @@ namespace QuranVideoGeneration.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Generate(GenerateRequest request)
         {
+            Console.WriteLine($"Generate called for {request.ReciterCode} {request.Surah}:{request.FromAyah}-{request.ToAyah} style='{request.VideoStyle}'");
             if (!ModelState.IsValid || request.FromAyah <= 0 || request.ToAyah < request.FromAyah)
             {
                 return BadRequest(new GenerateResult
