@@ -107,6 +107,114 @@
     </div>
 </section>
 
+<!-- ABOUT -->
+<a id="about"></a>
+<section class="qvg-section">
+  <div class="container">
+    <div class="row g-4">
+      <!-- English -->
+      <div class="col-12 col-lg-6">
+        <div class="card qvg-card shadow border-0">
+          <div class="card-body p-4">
+            <h2 class="h4 mb-3">About Quran Video Generation</h2>
+            <p class="mb-3">
+              Quran Video Creator helps you craft vertical videos pair authentic Qur’an recitation with clear, elegant ayah captions over soothing scenes. Choose your preferences
+              and render a 9:16 clip optimized for Shorts, Reels and Stories. Built for da‘wah, study circles and daily reflection, it makes creating beautiful reminders effortless.
+            </p>
+            <h3 class="h5 mt-4 mb-2">How it works</h3>
+            <ol class="mb-0 ps-3">
+              <li>Set the <strong>Reciter</strong>, <strong>Surah</strong>, <strong>From</strong> and <strong>To</strong> ayahs, and <strong>Video Style</strong>.</li>
+              <li>Click <strong>Generate</strong>; we fetch visuals and sync the recitation.</li>
+              <li>When finished, a success message appears; play the video or click <strong>Download</strong>.</li>
+              <li>Your results also appear in the <strong>Generations</strong> page for viewing or downloading.</li>
+              <li>To save space, videos are <strong>auto-deleted after 24 hours</strong>.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arabic -->
+      <div class="col-12 col-lg-6">
+        <div class="card qvg-card shadow border-0">
+          <div class="card-body p-4 rtl">
+            <h2 class="h4 mb-3">نبذة عن موقع إنشاء فيديوهات القرآن</h2>
+            <p class="mb-3">
+              يسهّل عليك هذا الموقع إنتاج مقاطع عمودية جاهزة للنشر تجمع تلاوةً موثوقة للقرآن مع نصوص آيات واضحة وأنيقة فوق مشاهد
+              طبيعية هادئة. اختر القارئ والسورة ونطاق الآيات، لننشئ لك تلقائياً فيديو بنسبة 9:16 مناسباً للريلز والستوري. صُمّم
+              للدعوة وحِلَق التلاوة والتذكير اليومي، ليجعل صناعة المحتوى القرآني سهلة وفعّالة.
+            </p>
+            <h3 class="h5 mt-4 mb-2">طريقة الاستخدام</h3>
+            <ol class="mb-0 pe-3">
+              <li>اختر <strong>القارئ</strong> وحدّد <strong>السورة</strong>، ثم عيّن <strong>بداية</strong> و<strong>نهاية</strong> الآيات واختر <strong>نمط الفيديو</strong>.</li>
+              <li>اضغط <strong>إنشاء</strong>، وسيقوم الموقع بجلب الخلفية ومزامنة التلاوة تلقائياً.</li>
+              <li>عند الانتهاء ستظهر رسالة نجاح، ويمكنك <strong>معاينة</strong> الفيديو أو الضغط على <strong>تنزيل</strong>.</li>
+              <li>توجد جميع النتائج أيضاً في صفحة <strong>المنشآت</strong> من القائمة العلوية للعرض أو التنزيل لاحقاً.</li>
+              <li>يتم <strong>حذف الفيديوهات تلقائياً بعد 24 ساعة</strong> لتوفير المساحة.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<a id="contact"></a>
+<section class="qvg-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        <div class="card qvg-card shadow border-0">
+          <div class="card-body p-4">
+            <h2 class="h4 mb-3">Contact / تواصل معنا</h2>
+
+            <form id="feedbackForm" method="post" asp-controller="Feedback" asp-action="Send">
+              @Html.AntiForgeryToken()
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label class="form-label" for="FullName">Full Name *</label>
+                  <input class="form-control" id="FullName" name="FullName" required maxlength="200" />
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="form-label" for="Email">Email</label>
+                  <input class="form-control" id="Email" name="Email" type="email" maxlength="200" />
+                </div>
+                <div class="col-12">
+                  <label class="form-label" for="Subject">Subject *</label>
+                  <input class="form-control" id="Subject" name="Subject" required maxlength="200" />
+                </div>
+                <div class="col-12">
+                  <label class="form-label" for="Message">Message *</label>
+                  <textarea class="form-control" id="Message" name="Message" rows="5" required maxlength="4000"></textarea>
+                </div>
+              </div>
+
+              <div class="d-flex gap-2 mt-3">
+                <button id="sendFeedbackBtn" class="btn qvg-cta" type="submit">
+                  <span class="spinner-border spinner-border-sm me-2 d-none" id="fbSpinner" aria-hidden="true"></span>
+                  Send Feedback
+                </button>
+                <small class="text-muted align-self-center">Fields marked * are required.</small>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast (feedback) -->
+    <div class="position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index:1080">
+      <div id="feedbackToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="polite" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body" id="feedbackToastMsg">Thanks! Your feedback was sent.</div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 @section Scripts {
 <script>
 // Populate Reciter select

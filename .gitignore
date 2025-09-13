@@ -1,10 +1,14 @@
-# .NET build artifacts
-**/bin/
-**/obj/
+# Ignore build artifacts anywhere
+**/bin/**
+**/obj/**
 
 # publish outputs (covers custom -o ./publish too)
-**/publish/
- /publish/
+**/publish/**
+/publish/
 
-# your generated media (optional, recommended)
-/wwwroot/generated/
+# Ignore generated site assets but keep the folders
+/wwwroot/generated/**
+!/wwwroot/generated/.gitkeep
+
+/wwwroot/feedback/**
+!/wwwroot/feedback/.gitkeep

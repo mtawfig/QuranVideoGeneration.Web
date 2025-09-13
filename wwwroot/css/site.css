@@ -22,7 +22,7 @@ a{ text-decoration:none }
   backdrop-filter: blur(6px);
   box-shadow: 0 6px 24px rgba(0,0,0,.25);
 }
-.qvg-logo{ width:100px; height:100px; object-fit:contain; }
+.qvg-logo{ width:80px; height:80px; object-fit:contain; }
 .qvg-nav-links .nav-link{ position:relative; padding:.5rem .9rem; font-weight:600; color:#dfe7ee; }
 .qvg-nav-links .nav-link.active, .qvg-nav-links .nav-link:hover{ color:#fff; }
 .qvg-nav-links .nav-link.active::after, .qvg-nav-links .nav-link:hover::after{
@@ -142,3 +142,11 @@ main > *:first-child{ scroll-margin-top:84px; }
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
+
+/* Arabic column: right-to-left & right aligned */
+.rtl { direction: rtl; text-align: right; }
+
+/* Optional: tighten list spacing a little */
+.rtl ol, .qvg-card ol { margin-bottom: 0.25rem; }
+
+.navbar-collapse{ flex-grow: inherit !important; } /* avoid stretching nav on wide screens */

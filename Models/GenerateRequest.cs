@@ -5,7 +5,7 @@ namespace QuranVideoGeneration.Web.Models
     public class GenerateRequest
     {
         [Required]
-        public string ReciterCode { get; set; } = "MISHARY";
+        public string ReciterCode { get; set; } = "";
 
         [Range(1, 114)]
         public int Surah { get; set; } = 1;
@@ -17,6 +17,6 @@ namespace QuranVideoGeneration.Web.Models
         public int ToAyah { get; set; } = 7;
 
         [Required]
-        public string VideoStyle { get; set; } = "nature";
+        public string VideoStyle { get; set; } = "";
     }
 }

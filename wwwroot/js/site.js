@@ -130,3 +130,65 @@
     }
   });
 })();
+
+
+// ===== Feedback form (Contact section) =====
+(function () {
+  const form = document.getElementById('feedbackForm');
+  if (!form) return;
+
+  const btn = document.getElementById('sendFeedbackBtn');
+  const spinner = document.getElementById('fbSpinner');
+
+  const toastEl = document.getElementById('feedbackToast');
+  const toastMsg = document.getElementById('feedbackToastMsg');
+  let toast;
+  try { toast = new bootstrap.Toast(toastEl, { delay: 3500 }); } catch { /* ignore */ }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // client-side required checks
+    if (!form.reportValidity()) return;
+
+    // token header
+    const token = form.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+    const fd = new FormData(form);
+
+    btn.disabled = true;
+    spinner.classList.remove('d-none');
+
+    try {
+      const resp = await fetch('/Feedback/Send', {
+        method: 'POST',
+        body: fd,
+        headers: token ? { 'RequestVerificationToken': token } : {}
+      });
+
+      const data = await resp.json().catch(() => ({}));
+
+      if (!resp.ok || data.success === false) {
+        toastEl.classList.remove('text-bg-success');
+        toastEl.classList.add('text-bg-danger');
+        toastMsg.textContent = data.message || `Failed to send feedback (HTTP ${resp.status}).`;
+        toast?.show();
+        return;
+      }
+
+      toastEl.classList.remove('text-bg-danger');
+      toastEl.classList.add('text-bg-success');
+      toastMsg.textContent = 'Thanks! Your feedback was sent.';
+      toast?.show();
+      form.reset();
+    } catch (err) {
+      toastEl.classList.remove('text-bg-success');
+      toastEl.classList.add('text-bg-danger');
+      toastMsg.textContent = 'Network error. Please try again.';
+      toast?.show();
+    } finally {
+      spinner.classList.add('d-none');
+      btn.disabled = false;
+    }
+  });
+})();
+// ===== End Feedback form =====
