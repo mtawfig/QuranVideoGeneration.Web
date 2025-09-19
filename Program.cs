@@ -15,6 +15,13 @@ builder.Services.AddScoped<IRecitationService, RecitationService>();
 builder.Services.AddScoped<ICaptionService, CaptionService>();
 builder.Services.AddScoped<IMediaService, MediaService>();
 
+// Needed for Turnstile server-side verification (HttpClient)
+builder.Services.AddHttpClient();
+// Optional but recommended: match the header you’re sending in fetch()
+builder.Services.AddAntiforgery(o => o.HeaderName = "RequestVerificationToken");
+// Optional: only if any service/controller reads HttpContext via DI
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

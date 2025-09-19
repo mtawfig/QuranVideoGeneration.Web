@@ -36,6 +36,8 @@
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     @* <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Contact">Contact Us</a></li> *@
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
+
+                    <li class="nav-item"><a class="nav-link" asp-controller="Generations" asp-action="Index">Generations</a></li>
                 </ul>
             </div>
         </div>
@@ -48,6 +50,9 @@
     <!-- Bootstrap Bundle JS (Popper included) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             crossorigin="anonymous"></script>
+
+    <!-- Cloudflare Turnstile for Captcha (Human Check) -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
     <!-- Your site scripts -->
     <script src="~/js/site.js" asp-append-version="true"></script>

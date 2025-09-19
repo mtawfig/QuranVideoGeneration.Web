@@ -150,3 +150,8 @@ main > *:first-child{ scroll-margin-top:84px; }
 .rtl ol, .qvg-card ol { margin-bottom: 0.25rem; }
 
 .navbar-collapse{ flex-grow: inherit !important; } /* avoid stretching nav on wide screens */
+
+
+/* ===== Generations Page card styles ===== */
+.qvg-gen-card { background-color: rgba(23,29,35,.88); border:1px solid var(--qvg-card-border); }
+.qvg-gen-card .btn { border-radius: .6rem; }

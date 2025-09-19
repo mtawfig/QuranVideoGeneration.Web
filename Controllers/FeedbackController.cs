@@ -1,6 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using System.Net.Http.Json;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
 
 namespace QuranVideoGeneration.Web.Controllers
 {
@@ -9,7 +13,17 @@ namespace QuranVideoGeneration.Web.Controllers
         private static readonly SemaphoreSlim IoLock = new(1, 1);
         private readonly IWebHostEnvironment _env;
 
-        public FeedbackController(IWebHostEnvironment env) => _env = env;
+        //public FeedbackController(IWebHostEnvironment env) => _env = env;
+
+        private readonly IConfiguration _cfg;
+        private readonly IHttpClientFactory _http;
+
+        public FeedbackController(IWebHostEnvironment env, IConfiguration cfg, IHttpClientFactory http)
+        {
+            _env = env;
+            _cfg = cfg;
+            _http = http;
+        }
 
         // ✅ POCO model (works with DataAnnotations without the record quirk)
         public class FeedbackInput
@@ -40,6 +54,19 @@ namespace QuranVideoGeneration.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Send([FromForm] FeedbackInput input)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(new { success = false, message = "Please fill all required fields correctly." });
+
+            // --- Turnstile server-side verification ---
+            var token = Request.Form["cf-turnstile-response"].ToString();
+            if (string.IsNullOrWhiteSpace(token))
+                return BadRequest(new { success = false, message = "Captcha is missing." });
+
+            var verified = await VerifyTurnstileAsync(token);
+            if (!verified)
+                return BadRequest(new { success = false, message = "Captcha failed. Please try again." });
+            // ------------------------------------------
+
             if (!ModelState.IsValid)
                 return BadRequest(new { success = false, message = "Please fill all required fields correctly." });
 
@@ -89,6 +116,41 @@ namespace QuranVideoGeneration.Web.Controllers
             }
 
             return Json(new { success = true });
+        }
+
+        private async Task<bool> VerifyTurnstileAsync(string token)
+        {
+            var secret = _cfg["Turnstile:SecretKey"];
+            if (string.IsNullOrWhiteSpace(secret))
+            {
+                // Fail closed if no secret configured
+                return false;
+            }
+
+            using var form = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string,string>("secret",   secret),
+                new KeyValuePair<string,string>("response", token),
+                new KeyValuePair<string,string>("remoteip", HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty)
+            });
+
+            var client = _http.CreateClient();
+            using var resp = await client.PostAsync("https://challenges.cloudflare.com/turnstile/v0/siteverify", form);
+            if (!resp.IsSuccessStatusCode) return false;
+
+            var result = await resp.Content.ReadFromJsonAsync<TurnstileVerifyResponse>();
+            // Optional: inspect result?.error_codes for logging
+            return result?.success == true;
+        }
+
+        private sealed class TurnstileVerifyResponse
+        {
+            public bool success { get; set; }
+            public string? challenge_ts { get; set; }
+            public string? hostname { get; set; }
+            public string[]? error_codes { get; set; }
+            public string? action { get; set; }
+            public string? cdata { get; set; }
         }
     }
 }

@@ -1,0 +1,152 @@
+@{
+    ViewData["Title"] = "Generations";
+}
+
+<section class="qvg-hero text-white">
+  <div class="container qvg-hero-inner text-center">
+    <h1 class="display-5 fw-bold mb-2">Your Generations</h1>
+    <p class="opacity-75 mb-0">Videos created on this device in the last 24 hours.</p>
+  </div>
+</section>
+
+<section class="qvg-section">
+  <div class="container">
+    <div id="gensEmpty" class="alert alert-info d-none">
+      No videos found in the last 24 hours. Generate a new video on the home page.
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div class="small text-muted">Stored locally in your browser. Not shared across devices.</div>
+      <button id="gensPurgeBtn" class="btn btn-sm btn-outline-light">Remove older than 24h</button>
+    </div>
+
+    <div id="gensGrid" class="row g-4"></div>
+  </div>
+</section>
+
+@section Scripts {
+<script>
+// ===== Generations page renderer =====
+(function(){
+  const grid  = document.getElementById('gensGrid');
+  if (!grid) return; // not on this page
+  const empty = document.getElementById('gensEmpty');
+  const purge = document.getElementById('gensPurgeBtn');
+
+  const KEY = 'qvg.generations';
+  const DAY_MS = 24*60*60*1000;
+
+  function dd2(n){ return n < 10 ? '0'+n : ''+n; }
+  function fmt(dt){
+    const d = new Date(dt);
+    return `${dd2(d.getDate())}-${dd2(d.getMonth()+1)}-${d.getFullYear()} ${dd2(d.getHours())}:${dd2(d.getMinutes())}`;
+  }
+
+  function loadAll(){
+    try { return JSON.parse(localStorage.getItem(KEY) || '[]'); }
+    catch{ return []; }
+  }
+  function saveAll(list){
+    try { localStorage.setItem(KEY, JSON.stringify(list)); } catch {}
+  }
+
+  function normalize(item){
+    // Backward compatibility: compute ts if missing by parsing CreateDateTime
+    if (!item.ts) {
+      const m = (item.CreateDateTime || '').match(/^(\d{2})-(\d{2})-(\d{4}) (\d{2}):(\d{2})$/);
+      if (m){
+        const [_, dd, MM, yyyy, HH, mm] = m;
+        const d = new Date(parseInt(yyyy), parseInt(MM)-1, parseInt(dd), parseInt(HH), parseInt(mm));
+        item.ts = d.getTime();
+      } else {
+        item.ts = Date.now();
+      }
+    }
+    return item;
+  }
+
+  function loadRecent(){
+    const now = Date.now();
+    return loadAll()
+      .map(normalize)
+      .filter(x => now - (x.ts||0) <= DAY_MS)
+      .sort((a,b) => (b.ts||0) - (a.ts||0));
+  }
+
+  function render(){
+    const items = loadRecent();
+    grid.innerHTML = '';
+    empty.classList.toggle('d-none', items.length > 0);
+
+    items.forEach((x, i) => {
+      const col = document.createElement('div');
+      col.className = 'col-12 col-md-6 col-lg-4';
+
+      const card = document.createElement('div');
+      card.className = 'card qvg-card qvg-gen-card shadow border-0 h-100';
+
+      const body = document.createElement('div');
+      body.className = 'card-body d-flex flex-column';
+
+      const title = document.createElement('h3');
+      title.className = 'h5 mb-2';
+      const surahName = (x.SurahName || '').trim();
+      const range = `Ayahs ${x.FromAyah} to ${x.ToAyah}`;
+      title.textContent = `${surahName} — ${range}`;
+
+      const reciter = document.createElement('div');
+      reciter.className = 'text-secondary small mb-1';
+      reciter.textContent = x.ReciterName || '';
+
+      const style = document.createElement('div');
+      style.className = 'text-secondary small mb-2';
+      style.textContent = `Style: ${x.VideoStyleName || ''}`;
+
+      const when = document.createElement('div');
+      when.className = 'small mb-3';
+      when.textContent = fmt(x.ts || Date.now());
+
+      const actions = document.createElement('div');
+      actions.className = 'mt-auto d-flex gap-2';
+
+      const a = document.createElement('a');
+      a.className = 'btn btn-sm btn-outline-light';
+      a.href = x.VideoURL || '#';
+      a.download = '';
+      a.textContent = 'Download';
+
+      // Optional: quick preview
+      const p = document.createElement('a');
+      p.className = 'btn btn-sm btn-outline-secondary';
+      p.href = x.VideoURL || '#';
+      p.target = '_blank';
+      p.rel = 'noopener';
+      p.textContent = 'Open';
+
+      actions.appendChild(a);
+      actions.appendChild(p);
+
+      body.appendChild(title);
+      body.appendChild(reciter);
+      body.appendChild(style);
+      body.appendChild(when);
+      body.appendChild(actions);
+
+      card.appendChild(body);
+      col.appendChild(card);
+      grid.appendChild(col);
+    });
+  }
+
+  purge.addEventListener('click', () => {
+    const all = loadAll().map(normalize);
+    const now = Date.now();
+    const keep = all.filter(x => now - (x.ts||0) <= DAY_MS);
+    saveAll(keep);
+    render();
+  });
+
+  render();
+})();
+</script>
+}

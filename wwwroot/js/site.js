@@ -114,13 +114,18 @@
       }
 
       // success
-      preview.src = data.previewUrl;
+      const previewUrl  = data.previewUrl  ?? data.PreviewUrl  ?? '';
+      const downloadUrl = data.downloadUrl ?? data.DownloadUrl ?? '';
+
+      preview.src = previewUrl;
       preview.load();
-      dl.href = data.downloadUrl;
+      dl.href = downloadUrl;
       dl.classList.remove('disabled');
 
       showToast();
       //genText.textContent = 'Re-Generate';
+      //qvgSaveGenerationFromForm(data);
+      qvgSaveGenerationFromForm({ ...data, previewUrl, downloadUrl });
     } catch (err) {
       alert((err && err.message) ? err.message : 'Error generating video.');
       //genText.textContent = 'Generate';
@@ -131,29 +136,113 @@
   });
 })();
 
+// ===== Generations: Save after successful Generate =====
+(function(){
+  const KEY = 'qvg.generations';
 
-// ===== Feedback form (Contact section) =====
+  function dd2(n){ return n < 10 ? '0'+n : ''+n; }
+  function fmtNow(){
+    const d = new Date();
+    return `${dd2(d.getDate())}-${dd2(d.getMonth()+1)}-${d.getFullYear()} ${dd2(d.getHours())}:${dd2(d.getMinutes())}`;
+  }
+
+  function getSelectedText(sel){
+    if (!sel || !sel.selectedOptions || !sel.selectedOptions[0]) return '';
+    const t = sel.selectedOptions[0].textContent || '';
+    // If "EN || AR" format, take EN part
+    const parts = t.split('||');
+    return parts[0].trim();
+  }
+
+  window.qvgSaveGenerationFromForm = function(result){
+    try{
+      const reciterSel = document.getElementById('reciter');
+      const surahSel   = document.getElementById('surah');
+      const styleSel   = document.getElementById('VideoStyle');
+      const fromAyah   = document.getElementById('fromAyah');
+      const toAyah     = document.getElementById('toAyah');
+
+      const item = {
+        ReciterName: getSelectedText(reciterSel),
+        SurahName:   getSelectedText(surahSel).replace(/^\d+\s*—\s*/, ''), // drop index if present
+        FromAyah:    parseInt(fromAyah?.value || '1', 10),
+        ToAyah:      parseInt(toAyah?.value   || '1', 10),
+        VideoStyleName: getSelectedText(styleSel),
+        //VideoURL:    (result?.DownloadUrl || result?.PreviewUrl || '').toString(),
+        VideoURL: (
+          result?.downloadUrl ??
+          result?.DownloadUrl ??
+          result?.previewUrl  ??
+          result?.PreviewUrl  ??
+          ''
+        ).toString(),
+        CreateDateTime: fmtNow(),
+        ts: Date.now()
+      };
+
+      if (!item.VideoURL) return;
+
+      const raw = localStorage.getItem(KEY);
+      let arr = [];
+      try { arr = raw ? JSON.parse(raw) : []; } catch {}
+      // de-dup by VideoURL
+      arr = arr.filter(x => x.VideoURL !== item.VideoURL);
+      arr.unshift(item);
+      // keep last 100 max
+      if (arr.length > 100) arr = arr.slice(0, 100);
+      localStorage.setItem(KEY, JSON.stringify(arr));
+    } catch(e) {
+      // non-fatal
+      console.warn('qvgSaveGenerationFromForm failed:', e);
+    }
+  };
+})();
+// ===== End Generations =====
+
+
+// ===== Feedback form (Contact section) + Turnstile (invisible) =====
 (function () {
-  const form = document.getElementById('feedbackForm');
+  const form    = document.getElementById('feedbackForm');
   if (!form) return;
 
-  const btn = document.getElementById('sendFeedbackBtn');
+  const btn     = document.getElementById('sendFeedbackBtn');
   const spinner = document.getElementById('fbSpinner');
 
-  const toastEl = document.getElementById('feedbackToast');
+  const toastEl  = document.getElementById('feedbackToast');
   const toastMsg = document.getElementById('feedbackToastMsg');
-  let toast;
-  try { toast = new bootstrap.Toast(toastEl, { delay: 3500 }); } catch { /* ignore */ }
+  let toast; try { toast = new bootstrap.Toast(toastEl, { delay: 3500 }); } catch {}
+
+  // Flag to avoid double-execute loops
+  let turnstilePending = false;
+
+  // Called by Turnstile when token is ready (data-callback on the widget)
+  window.onTurnstileOK = function () {
+    turnstilePending = false;
+    // Re-trigger submit; now the hidden token is in the form
+    form.requestSubmit();
+  };
 
   form.addEventListener('submit', async (e) => {
+    // 1) Ensure the widget has produced a token before we send
+    const tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
+    const hasToken = !!(tokenInput && tokenInput.value);
+
+    if (!hasToken && window.turnstile) {
+      e.preventDefault(); // wait for Turnstile, then our callback will re-submit
+      if (!turnstilePending) {
+        turnstilePending = true;
+        try { turnstile.execute(form); } catch { turnstilePending = false; }
+      }
+      return;
+    }
+
+    // 2) Normal flow (we have token or Turnstile unavailable)
     e.preventDefault();
 
-    // client-side required checks
     if (!form.reportValidity()) return;
 
-    // token header
+    const fd    = new FormData(form); // includes anti-forgery + turnstile token
     const token = form.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
-    const fd = new FormData(form);
 
     btn.disabled = true;
     spinner.classList.remove('d-none');
@@ -162,6 +251,7 @@
       const resp = await fetch('/Feedback/Send', {
         method: 'POST',
         body: fd,
+        // Header is optional if the anti-forgery hidden input is present; keep if your server expects it
         headers: token ? { 'RequestVerificationToken': token } : {}
       });
 
@@ -180,6 +270,9 @@
       toastMsg.textContent = 'Thanks! Your feedback was sent.';
       toast?.show();
       form.reset();
+
+      // Optional: reset Turnstile so a new token is generated on the next submit
+      try { if (window.turnstile) turnstile.reset(form); } catch {}
     } catch (err) {
       toastEl.classList.remove('text-bg-success');
       toastEl.classList.add('text-bg-danger');
@@ -191,4 +284,4 @@
     }
   });
 })();
-// ===== End Feedback form =====
+// ===== End Feedback + Turnstile =====

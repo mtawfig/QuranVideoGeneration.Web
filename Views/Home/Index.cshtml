@@ -1,4 +1,7 @@
 @model QuranVideoGeneration.Web.Models.GenerateRequest?
+
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+
 @{
     ViewData["Title"] = "Home";
 }
@@ -187,6 +190,13 @@
                   <label class="form-label" for="Message">Message *</label>
                   <textarea class="form-control" id="Message" name="Message" rows="5" required maxlength="4000"></textarea>
                 </div>
+              </div>
+
+              <!-- Invisible Turnstile Captcha -->
+              <div class="cf-turnstile"
+                  data-sitekey="@Configuration["Turnstile:SiteKey"]"
+                  data-size="invisible"
+                  data-callback="onTurnstileOK">
               </div>
 
               <div class="d-flex gap-2 mt-3">
