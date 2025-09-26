@@ -5,19 +5,19 @@
 <section class="qvg-hero text-white">
   <div class="container qvg-hero-inner text-center">
     <h1 class="display-5 fw-bold mb-2">Your Generations</h1>
-    <p class="opacity-75 mb-0">Videos created on this device in the last 24 hours.</p>
+    <p class="opacity-75 mb-0">Videos created on this device in the last 48 hours.</p>
   </div>
 </section>
 
 <section class="qvg-section">
   <div class="container">
     <div id="gensEmpty" class="alert alert-info d-none">
-      No videos found in the last 24 hours. Generate a new video on the home page.
+      No videos found in the last 48 hours. Generate a new video on the home page.
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-3">
       <div class="small text-muted">Stored locally in your browser. Not shared across devices.</div>
-      <button id="gensPurgeBtn" class="btn btn-sm btn-outline-light">Remove older than 24h</button>
+      <button id="gensPurgeBtn" class="btn btn-sm btn-outline-light">Remove older than 48h</button>
     </div>
 
     <div id="gensGrid" class="row g-4"></div>
@@ -34,7 +34,7 @@
   const purge = document.getElementById('gensPurgeBtn');
 
   const KEY = 'qvg.generations';
-  const DAY_MS = 24*60*60*1000;
+  const DAY_MS = 48*60*60*1000;
 
   function dd2(n){ return n < 10 ? '0'+n : ''+n; }
   function fmt(dt){

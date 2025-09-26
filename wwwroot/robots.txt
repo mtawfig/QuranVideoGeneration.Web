@@ -1,0 +1,12 @@
+# robots.txt for Quran Video Generator
+
+User-agent: *
+Allow: /
+
+# Don't index non-canonical or action endpoints
+Disallow: /Video/Generate
+Disallow: /Feedback/Send
+
+# Sitemaps (list both domains if you serve both)
+Sitemap: https://mwahbi.online/sitemap.xml
+Sitemap: https://vidgenipro.com/sitemap.xml

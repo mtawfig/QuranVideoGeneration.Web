@@ -39,12 +39,12 @@ Create beautiful **9:16 vertical Qur’an videos** with recitation and synced ay
 ## Features
 
 - 9:16 **vertical** MP4 output (yuv420p) suitable for Shorts/Reels/Stories.
-- **Pexels** background videos (portrait nature/islamic queries; configurable).
+- **Pexels** background videos with configurable queries (nature, islamic, rain, forest at night, etc.).
 - **Recitation audio** concatenated by ayah & **centered Arabic overlays**.
 - In-app **preview**, **download**, and “Re-Generate” UX.
-- **Generations** page showing a user’s recent outputs (24h, LocalStorage).
+- **Generations** page showing a user’s recent outputs (48h, LocalStorage).
 - **Contact** form with **Cloudflare Turnstile** (invisible CAPTCHA).
-- Simple JSON content for **reciters**, **surah list**, **video styles**.
+- JSON content for **reciters**, **surah list**, **pexels video styles**.
 - Production-ready **IIS** deployment (Windows), with rewrite & HTTPS notes.
 
 ---
@@ -155,8 +155,8 @@ App settings (`appsettings.json`):
 
 - Stores results in `localStorage` under key: `qvg.generations`.
 - Each record: reciter, surah, ayahs, style, video URL, date.
-- Expired (24h+) entries auto-filtered.
-- Displayed as **Bootstrap cards** with **Download** button.
+- Expired (48h+) entries auto-filtered.
+- Displayed as **Bootstrap cards** with **Download** and **Preview** button.
 
 ---
 
@@ -216,7 +216,7 @@ Output in: `/bin/Release/net8.0/publish/`
 ## Maintenance & Cleanup
 
 - Generated videos stored under `/wwwroot/generated/`.
-- Auto-clean (optional CRON/Task Scheduler): delete files > 24h old.
+- Auto-clean (optional CRON/Task Scheduler): delete files > 48h old.
 - Feedback JSON files can be archived monthly.
 
 ---
@@ -250,6 +250,7 @@ QuranVideoGeneration.Web/
 │   ├── css/
 │   ├── js/
 │   ├── fonts/
+│   ├── data/
 │   ├── generated/
 │   └── feedback/
 └── appsettings.json

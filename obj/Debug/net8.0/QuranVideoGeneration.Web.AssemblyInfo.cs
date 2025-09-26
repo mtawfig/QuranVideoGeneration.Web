@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QuranVideoGeneration.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ed75f36a24dbce5cc9f3afba768f173c925a603b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+66257638a353c20d0e6fcb6420e4e1df9c17ec25")]
 [assembly: System.Reflection.AssemblyProductAttribute("QuranVideoGeneration.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QuranVideoGeneration.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
